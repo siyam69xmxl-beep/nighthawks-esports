@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - NightHawk eSports</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0b0e14;
+            --card-bg: #151a23;
+            --accent-color: #ff4655;
+            --neon-blue: #00f0ff;
+            --text-color: #ffffff;
+            --sub-text: #9a9da5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 22px;
+            text-align: center;
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: var(--sub-text);
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            background: #0b0e14;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(90deg, #ff4655, #ff6b7b);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .success-msg {
+            color: #2ec4b6;
+            font-size: 13px;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1><i class="fa-solid fa-user-shield"></i> অ্যাডমিন কন্ট্রোল প্যানেল</h1>
+    
+    <div class="form-card">
+        <h3>নতুন টুর্নামেন্ট পোস্ট করুন</h3>
+        <form id="tournament-form" style="margin-top: 15px;">
+            <div class="form-group">
+                <label>ম্যাচের নাম (Title)</label>
+                <input type="text" id="title" placeholder="যেমন: FREE FIRE DAILY BR #01" required>
+            </div>
+            <div class="form-group">
+                <label>ম্যাচের ধরণ (Type)</label>
+                <select id="type">
+                    <option value="SOLO">SOLO</option>
+                    <option value="DUO">DUO</option>
+                    <option value="SQUAD">SQUAD</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>ম্যাপ (Map)</label>
+                <input type="text" id="map" value="Bermuda" required>
+            </div>
+            <div class="form-group">
+                <label>প্রাইজ পুল (Prize Pool - ৳)</label>
+                <input type="number" id="prizePool" placeholder="300" required>
+            </div>
+            <div class="form-group">
+                <label>পার কিল (Per Kill - ৳)</label>
+                <input type="number" id="perKill" placeholder="10" required>
+            </div>
+            <div class="form-group">
+                <label>এন্ট্রি ফি (Entry Fee - ৳)</label>
+                <input type="number" id="entryFee" placeholder="20" required>
+            </div>
+            <div class="form-group">
+                <label>সময় (Time)</label>
+                <input type="text" id="time" placeholder="Today, 09:00 PM" required>
+            </div>
+            <div class="form-group">
+                <label>মোট সিট (Total Seats)</label>
+                <input type="number" id="totalSeats" value="48" required>
+            </div>
+            <button type="submit">ম্যাচ পাবলিশ করুন</button>
+        </form>
+        <div id="msg" class="success-msg"></div>
+    </div>
+
+    <script>
+        document.getElementById('tournament-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                title: document.getElementById('title').value,
+                type: document.getElementById('type').value,
+                map: document.getElementById('map').value,
+                prizePool: document.getElementById('prizePool').value,
+                perKill: document.getElementById('perKill').value,
+                entryFee: document.getElementById('entryFee').value,
+                time: document.getElementById('time').value,
+                totalSeats: document.getElementById('totalSeats').value
+            };
+
+            try {
+                const res = await fetch('/api/tournaments/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                document.getElementById('msg').innerText = result.message;
+                if(result.success) {
+                    document.getElementById('tournament-form').reset();
+                }
+            } catch (err) {
+                console.error("ডেটা পাঠাতে সমস্যা হয়েছে:", err);
+                document.getElementById('msg').innerText = "সার্ভারে সংযোগ করতে সমস্যা হচ্ছে!";
+            }
+        });
+    </script>
+</body>
+</html>
