@@ -3,232 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NightHawk eSports</title>
-    <!-- Google Fonts & Font Awesome Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>NightHawks E-Sports</title>
     <style>
-        :root {
-            --bg-color: #0b0e14;
-            --card-bg: #151a23;
-            --accent-color: #ff4655;
-            --neon-blue: #00f0ff;
-            --text-color: #ffffff;
-            --sub-text: #9a9da5;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding-bottom: 70px;
-        }
-
-        /* Top Header */
-        .header {
-            background: linear-gradient(180deg, #1f2733 0%, #151a23 100%);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--accent-color);
-            box-shadow: 0 4px 15px rgba(255, 70, 85, 0.2);
-        }
-
-        .logo-title {
-            font-family: 'Teko', sans-serif;
-            font-size: 28px;
-            letter-spacing: 2px;
-            color: #fff;
-            text-transform: uppercase;
-        }
-
-        .logo-title span {
-            color: var(--accent-color);
-        }
-
-        .wallet-badge {
-            background: rgba(0, 240, 255, 0.1);
-            border: 1px solid var(--neon-blue);
-            padding: 6px 14px;
-            border-radius: 20px;
-            color: var(--neon-blue);
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Banner Carousel */
-        .banner-container {
-            margin: 15px 20px;
-            background: linear-gradient(135deg, #1f273b, #0d1117);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .banner-container h2 {
-            font-family: 'Teko', sans-serif;
-            font-size: 32px;
-            color: var(--accent-color);
-            line-height: 1;
-        }
-
-        .banner-container p {
-            font-size: 13px;
-            color: var(--sub-text);
-            margin-top: 5px;
-        }
-
-        /* Section Title */
-        .section-title {
-            margin: 20px 20px 10px 20px;
-            font-size: 18px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #fff;
-        }
-
-        .section-title i {
-            color: var(--accent-color);
-        }
-
-        /* Tournament List */
-        .match-card {
-            background: var(--card-bg);
-            margin: 0 20px 15px 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .match-header {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .match-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .match-type {
-            background: var(--accent-color);
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .match-body {
-            padding: 15px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            text-align: center;
-        }
-
-        .info-box span {
-            display: block;
-            font-size: 11px;
-            color: var(--sub-text);
-        }
-
-        .info-box strong {
-            font-size: 14px;
-            color: var(--neon-blue);
-        }
-
-        .match-footer {
-            padding: 12px 15px;
-            background: rgba(0, 0, 0, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .time-info {
-            font-size: 12px;
-            color: #ffb703;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .join-btn {
-            background: linear-gradient(90deg, #ff4655, #ff6b7b);
-            color: white;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #11151c;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-item {
-            color: var(--sub-text);
-            text-decoration: none;
-            font-size: 11px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .nav-item.active {
-            color: var(--accent-color);
-        }
-
-        .nav-item i {
-            font-size: 18px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0d1117; color: #c9d1d9; padding: 20px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #161b22; border-radius: 10px; margin-bottom: 25px; border: 1px solid #30363d; }
+        header h1 { color: #58a6ff; font-size: 24px; }
+        .user-info { font-size: 14px; color: #8b949e; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h2 { margin-bottom: 15px; color: #f0f6fc; border-bottom: 2px solid #21262d; padding-bottom: 8px; }
+        .tournament-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 18px; transition: 0.2s; }
+        .card:hover { border-color: #58a6ff; transform: translateY(-2px); }
+        .card h3 { color: #58a6ff; margin-bottom: 10px; }
+        .card p { font-size: 14px; margin: 5px 0; color: #8b949e; }
+        .card p span { color: #f0f6fc; font-weight: bold; }
+        .join-btn { display: block; width: 100%; padding: 10px; margin-top: 15px; background: #238636; color: white; text-align: center; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; text-decoration: none; }
+        .join-btn:hover { background: #2ea043; }
+        .no-data { color: #8b949e; font-style: italic; }
     </style>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>NightHawks E-Sports</h1>
+            <div class="user-info">
+                <span>User: Guest</span> | <span>Balance: ৳0</span>
+            </div>
+        </header>
 
-    <!-- Header -->
-    <div class="header">
-        <div class="logo-title">Night<span>Hawk</span></div>
-        <div class="wallet-badge">
-            <i class="fa-solid fa-wallet"></i> ৳ <span>0.00</span>
+        <h2>Active Tournaments</h2>
+        <div id="tournament-list" class="tournament-grid">
+            <p class="no-data">টুর্নামেন্ট লোড হচ্ছে...</p>
         </div>
     </div>
 
-    <!-- Banner -->
-    <div class="banner-container">
-        <h2>DAILY FREE FIRE TOURNAMENTS</h2>
-        <p>প্লে করুন, জয়ী হোন এবং বিকাশ/নগদে ইনস্ট্যান্ট প্রাইজমানি ক্যাশআউট করুন!</p>
-    </div>
+    <script>
+        async function loadTournaments() {
+            try {
+                const res = await fetch('/api/tournaments');
+                const tournaments = await res.json();
+                const list = document.getElementById('tournament-list');
+                
+                if (!tournaments || tournaments.length === 0) {
+                    list.innerHTML = '<p class="no-data">বর্তমানে কোনো টুর্নামেন্ট চালু নেই। অ্যাডমিন প্যানেল থেকে তৈরি করুন!</p>';
+                    return;
+                }
+
+                list.innerHTML = tournaments.map(t => `
+                    <div class="card">
+                        <h3>${t.title}</h3>
+                        <p>টাইপ: <span>${t.type}</span></p>
+                        <p>ম্যাপ: <span>${t.map}</span></p>
+                        <p>প্রাইজপুল: <span>৳${t.prizePool}</span></p>
+                        <p>পার কিল: <span>৳${t.perKill}</span></p>
+                        <p>এন্ট্রি ফি: <span>৳${t.entryFee}</span></p>
+                        <p>সময়: <span>${t.time}</span></p>
+                        <a href="#" class="join-btn">Join Match</a>
+                    </div>
+                `).join('');
+            } catch (err) {
+                document.getElementById('tournament-list').innerHTML = '<p class="no-data">টুর্নামেন্ট লোড করতে সমস্যা হচ্ছে!</p>';
+            }
+        }
+
+        loadTournaments();
+    </script>
+</body>
+</html>
