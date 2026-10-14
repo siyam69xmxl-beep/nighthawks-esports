@@ -3,176 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - NightHawk eSports</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-color: #0b0e14;
-            --card-bg: #151a23;
-            --accent-color: #ff4655;
-            --neon-blue: #00f0ff;
-            --text-color: #ffffff;
-            --sub-text: #9a9da5;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding: 20px;
-        }
-
-        h1 {
-            color: var(--accent-color);
-            margin-bottom: 20px;
-            font-size: 22px;
-            text-align: center;
-        }
-
-        .form-card {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            color: var(--sub-text);
-            margin-bottom: 5px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px;
-            background: #0b0e14;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        input:focus, select:focus {
-            border-color: var(--accent-color);
-            outline: none;
-        }
-
-        button {
-            width: 100%;
-            background: linear-gradient(90deg, #ff4655, #ff6b7b);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-
-        .success-msg {
-            color: #2ec4b6;
-            font-size: 13px;
-            margin-top: 10px;
-            text-align: center;
-        }
-    </style>
+    <title>NightHawks Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>body { background-color: #030712; color: #f3f4f6; font-family: sans-serif; }</style>
 </head>
-<body>
+<body class="p-6">
+    <div class="max-w-6xl mx-auto space-y-6">
+        <header class="flex justify-between items-center bg-slate-900 border border-slate-800 p-4 rounded-2xl">
+            <h1 class="text-xl font-bold text-red-500">NIGHTHAWKS ADMIN CONTROL PANEL</h1>
+            <a href="/" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg text-gray-300">লাইভ অ্যাপ দেখুন</a>
+        </header>
 
-    <h1><i class="fa-solid fa-user-shield"></i> অ্যাডমিন কন্ট্রোল প্যানেল</h1>
-    
-    <div class="form-card">
-        <h3>নতুন টুর্নামেন্ট পোস্ট করুন</h3>
-        <form id="tournament-form" style="margin-top: 15px;">
-            <div class="form-group">
-                <label>ম্যাচের নাম (Title)</label>
-                <input type="text" id="title" placeholder="যেমন: FREE FIRE DAILY BR #01" required>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- নতুন ম্যাচ অ্যাড -->
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-4">
+                <h2 class="font-bold text-white text-base">১. নতুন টুর্নামেন্ট ম্যাচ অ্যাড করুন</h2>
+                <input type="text" id="matchTitle" placeholder="ম্যাচের নাম (যেমন: Grand Clash #2)" class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="matchCategory" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                        <option value="Clash Squad">Clash Squad</option>
+                        <option value="Bermuda">Bermuda</option>
+                        <option value="Lone Wolf">Lone Wolf</option>
+                    </select>
+                    <input type="text" id="subCategory" placeholder="ট্যাগ (যেমন: 4v4 / SOLO)" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <input type="text" id="prizePool" placeholder="প্রাইজপুল (৳)" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                    <input type="text" id="perKill" placeholder="পার কিল (৳)" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                    <input type="text" id="entryFee" placeholder="এন্ট্রি ফি (৳)" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                </div>
+                <input type="text" id="matchTime" placeholder="সময় (যেমন: Tonight 09:00 PM)" class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                <button onclick="publishMatch()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl text-xs">ম্যাচ পাবলিশ করুন</button>
             </div>
-            <div class="form-group">
-                <label>ম্যাচের ধরণ (Type)</label>
-                <select id="type">
-                    <option value="SOLO">SOLO</option>
-                    <option value="DUO">DUO</option>
-                    <option value="SQUAD">SQUAD</option>
-                </select>
+
+            <!-- রিফান্ড ও ওয়ালেট কন্ট্রোল -->
+            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-4">
+                <h2 class="font-bold text-white text-base">২. প্লেয়ার রিফান্ড ও ওয়ালেট অ্যাডJustment</h2>
+                <input type="text" id="refundUser" placeholder="ইউজারনেম লিখুন" class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                <input type="number" id="refundAmount" placeholder="টাকার পরিমাণ (৳)" class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                <input type="text" id="refundMsg" placeholder="বার্তা (যেমন: ম্যাচ ক্যানসেলের রিফান্ড টাকা)" class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                <button onclick="sendRefund()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-xs">রিফান্ড ও নোটিফিকেশন পাঠান</button>
             </div>
-            <div class="form-group">
-                <label>ম্যাপ (Map)</label>
-                <input type="text" id="map" value="Bermuda" required>
+        </div>
+
+        <!-- রুম আইডি ও সেটিংস চেঞ্জার -->
+        <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-4">
+            <h2 class="font-bold text-white text-base">৩. অ্যাপের বিকাশ ও ওয়াটসঅ্যাপ নাম্বার আপডেট</h2>
+            <div class="grid grid-cols-2 gap-3">
+                <input type="text" id="setBkash" placeholder="নতুন বিকাশ নাম্বার" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
+                <input type="text" id="setWhatsapp" placeholder="নতুন ওয়াটসঅ্যাপ নাম্বার" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
             </div>
-            <div class="form-group">
-                <label>প্রাইজ পুল (Prize Pool - ৳)</label>
-                <input type="number" id="prizePool" placeholder="300" required>
-            </div>
-            <div class="form-group">
-                <label>পার কিল (Per Kill - ৳)</label>
-                <input type="number" id="perKill" placeholder="10" required>
-            </div>
-            <div class="form-group">
-                <label>এন্ট্রি ফি (Entry Fee - ৳)</label>
-                <input type="number" id="entryFee" placeholder="20" required>
-            </div>
-            <div class="form-group">
-                <label>সময় (Time)</label>
-                <input type="text" id="time" placeholder="Today, 09:00 PM" required>
-            </div>
-            <div class="form-group">
-                <label>মোট সিট (Total Seats)</label>
-                <input type="number" id="totalSeats" value="48" required>
-            </div>
-            <button type="submit">ম্যাচ পাবলিশ করুন</button>
-        </form>
-        <div id="msg" class="success-msg"></div>
+            <textarea id="setNotice" placeholder="টপ নোটিশ বার্তা লিখুন..." class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white h-20"></textarea>
+            <button onclick="updateSettings()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs">সেটিংস সেভ করুন</button>
+        </div>
     </div>
 
     <script>
-        document.getElementById('tournament-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const data = {
-                title: document.getElementById('title').value,
-                type: document.getElementById('type').value,
-                map: document.getElementById('map').value,
+        async function publishMatch() {
+            let data = {
+                title: document.getElementById('matchTitle').value,
+                category: document.getElementById('matchCategory').value,
+                subCategory: document.getElementById('subCategory').value,
                 prizePool: document.getElementById('prizePool').value,
                 perKill: document.getElementById('perKill').value,
                 entryFee: document.getElementById('entryFee').value,
-                time: document.getElementById('time').value,
-                totalSeats: document.getElementById('totalSeats').value
+                time: document.getElementById('matchTime').value,
+                totalSlots: 8
             };
+            let res = await fetch('/api/tournaments/add', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            let result = await res.json();
+            alert(result.message);
+        }
 
-            try {
-                const res = await fetch('/api/tournaments/add', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                document.getElementById('msg').innerText = result.message;
-                if(result.success) {
-                    document.getElementById('tournament-form').reset();
-                }
-            } catch (err) {
-                console.error("ডেটা পাঠাতে সমস্যা হয়েছে:", err);
-                document.getElementById('msg').innerText = "সার্ভারে সংযোগ করতে সমস্যা হচ্ছে!";
-            }
-        });
+        async function sendRefund() {
+            let data = {
+                username: document.getElementById('refundUser').value.trim(),
+                amount: document.getElementById('refundAmount').value,
+                message: document.getElementById('refundMsg').value
+            };
+            let res = await fetch('/api/admin/refund', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            let result = await res.json();
+            alert(result.message);
+        }
+
+        async function updateSettings() {
+            let data = {
+                bkashNumber: document.getElementById('setBkash').value,
+                whatsappNumber: document.getElementById('setWhatsapp').value,
+                topNotice: document.getElementById('setNotice').value
+            };
+            let res = await fetch('/api/settings/update', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            let result = await res.json();
+            alert(result.message);
+        }
     </script>
 </body>
 </html>

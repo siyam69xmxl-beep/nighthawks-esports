@@ -4,70 +4,222 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NightHawks E-Sports</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0d1117; color: #c9d1d9; padding: 20px; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #161b22; border-radius: 10px; margin-bottom: 25px; border: 1px solid #30363d; }
-        header h1 { color: #58a6ff; font-size: 24px; }
-        .user-info { font-size: 14px; color: #8b949e; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        h2 { margin-bottom: 15px; color: #f0f6fc; border-bottom: 2px solid #21262d; padding-bottom: 8px; }
-        .tournament-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 18px; transition: 0.2s; }
-        .card:hover { border-color: #58a6ff; transform: translateY(-2px); }
-        .card h3 { color: #58a6ff; margin-bottom: 10px; }
-        .card p { font-size: 14px; margin: 5px 0; color: #8b949e; }
-        .card p span { color: #f0f6fc; font-weight: bold; }
-        .join-btn { display: block; width: 100%; padding: 10px; margin-top: 15px; background: #238636; color: white; text-align: center; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; text-decoration: none; }
-        .join-btn:hover { background: #2ea043; }
-        .no-data { color: #8b949e; font-style: italic; }
+        body { background-color: #0b0f19; color: #f3f4f6; font-family: 'Segoe UI', sans-serif; }
+        .app-container { max-width: 480px; margin: auto; min-height: 100vh; background: #0f172a; position: relative; padding-bottom: 80px; box-shadow: 0 0 25px rgba(0,0,0,0.8); }
     </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>NightHawks E-Sports</h1>
-            <div class="user-info">
-                <span>User: Guest</span> | <span>Balance: ৳0</span>
+<body class="flex justify-center items-center min-h-screen">
+
+    <div class="app-container flex flex-col">
+        
+        <!-- লগইন / রেজিস্টার স্ক্রিন -->
+        <div id="authScreen" class="absolute inset-0 bg-[#0f172a] z-50 flex flex-col justify-center px-6 hidden">
+            <div class="text-center mb-6">
+                <h1 class="text-3xl font-black text-red-500 tracking-wider">NIGHTHAWKS</h1>
+                <p class="text-xs text-gray-400 mt-1">E-SPORTS TOURNAMENT APP</p>
+            </div>
+            
+            <div id="loginBox" class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700 shadow-xl">
+                <h2 class="text-xl font-bold mb-4 text-center text-white">লগইন করুন</h2>
+                <input type="text" id="loginUser" placeholder="ইউজারনেম" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl mb-3 text-white focus:outline-none focus:border-red-500">
+                <input type="password" id="loginPass" placeholder="পাসওয়ার্ড" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl mb-4 text-white focus:outline-none focus:border-red-500">
+                <button onclick="handleLogin()" class="w-full bg-red-600 hover:bg-red-700 font-bold py-3 rounded-xl transition duration-200">লগইন</button>
+                <p class="text-center text-sm text-gray-400 mt-4">একাউন্ট নেই? <span onclick="toggleAuth('register')" class="text-red-400 cursor-pointer font-bold">রেজিস্টার করুন</span></p>
+            </div>
+
+            <div id="registerBox" class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700 shadow-xl hidden">
+                <h2 class="text-xl font-bold mb-4 text-center text-white">নতুন একাউন্ট</h2>
+                <input type="text" id="regUser" placeholder="ইউজারনেম" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl mb-3 text-white focus:outline-none focus:border-red-500">
+                <input type="password" id="regPass" placeholder="পাসওয়ার্ড" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl mb-4 text-white focus:outline-none focus:border-red-500">
+                <button onclick="handleRegister()" class="w-full bg-emerald-600 hover:bg-emerald-700 font-bold py-3 rounded-xl transition duration-200">রেজিস্টার</button>
+                <p class="text-center text-sm text-gray-400 mt-4">আগে থেকেই একাউন্ট আছে? <span onclick="toggleAuth('login')" class="text-red-400 cursor-pointer font-bold">লগইন করুন</span></p>
+            </div>
+        </div>
+
+        <!-- সফল লগইন অ্যানিমেশন -->
+        <div id="successPopup" class="absolute inset-0 bg-black/70 z-50 flex items-center justify-center hidden">
+            <div class="bg-slate-900 border border-emerald-500 p-6 rounded-2xl text-center transform scale-95 animate-pulse">
+                <i class="fa-solid fa-circle-check text-emerald-500 text-5xl mb-3"></i>
+                <h3 class="text-xl font-bold text-white">লগইন সম্পন্ন হয়েছে!</h3>
+                <p class="text-sm text-gray-400 mt-1">স্বাগতম NightHawks E-Sports এ</p>
+            </div>
+        </div>
+
+        <!-- হেডার -->
+        <header class="bg-slate-900/90 backdrop-blur sticky top-0 z-30 px-4 py-3 border-b border-slate-800 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div id="profileAvatar" class="w-10 h-10 rounded-full bg-red-600 font-bold flex items-center justify-center text-lg text-white shadow-lg">S</div>
+                <div>
+                    <h1 class="font-extrabold text-sm text-white">NIGHTHAWKS E-SPORTS</h1>
+                    <p class="text-[10px] text-emerald-400 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Online</p>
+                </div>
+            </div>
+            <div onclick="switchTab('wallet')" class="bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-full flex items-center space-x-2 cursor-pointer">
+                <i class="fa-solid fa-wallet text-amber-400 text-sm"></i>
+                <span id="headerBalance" class="text-sm font-bold text-white">৳0</span>
             </div>
         </header>
 
-        <h2>Active Tournaments</h2>
-        <div id="tournament-list" class="tournament-grid">
-            <p class="no-data">টুর্নামেন্ট লোড হচ্ছে...</p>
+        <!-- নোটিশ ব্যানার -->
+        <div class="bg-red-950/40 border-y border-red-900/50 py-1.5 overflow-hidden whitespace-nowrap">
+            <div id="topNoticeText" class="inline-block text-xs text-red-300 font-medium">
+                লোড হচ্ছে নোটিশ...
+            </div>
+        </div>
+
+        <!-- মেইন কনটেন্ট -->
+        <main class="flex-1 p-4 overflow-y-auto">
+            <div id="homeTab" class="space-y-4">
+                <div class="flex space-x-2 overflow-x-auto pb-2 scrollbar-none">
+                    <button onclick="filterCategory('All')" class="cat-btn bg-red-600 text-white px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap">All Matches</button>
+                    <button onclick="filterCategory('Clash Squad')" class="cat-btn bg-slate-800 text-gray-300 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap border border-slate-700">Clash Squad</button>
+                    <button onclick="filterCategory('Bermuda')" class="cat-btn bg-slate-800 text-gray-300 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap border border-slate-700">Bermuda</button>
+                    <button onclick="filterCategory('Lone Wolf')" class="cat-btn bg-slate-800 text-gray-300 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap border border-slate-700">Lone Wolf</button>
+                </div>
+
+                <div id="tournamentList" class="space-y-3"></div>
+            </div>
+
+            <div id="historyTab" class="space-y-4 hidden">
+                <h2 class="text-lg font-bold text-white">হিস্ট্রি ও ট্রানজেকশন</h2>
+                <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700 text-center text-sm text-gray-400">কোনো রেকর্ড পাওয়া যায়নি।</div>
+            </div>
+
+            <div id="walletTab" class="space-y-4 hidden">
+                <div class="bg-gradient-to-r from-red-900 to-slate-900 p-5 rounded-2xl border border-red-700/50 text-center shadow-xl">
+                    <p class="text-xs text-gray-300">বর্তমান মূল ব্যালেন্স</p>
+                    <h2 id="walletBalance" class="text-3xl font-black text-white mt-1">৳0</h2>
+                </div>
+
+                <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-3">
+                    <h3 class="font-bold text-sm text-white"><i class="fa-solid fa-circle-plus text-emerald-400 mr-2"></i>অ্যাড মানি (বিকাশ)</h3>
+                    <div class="flex items-center justify-between bg-slate-900 p-3 rounded-xl border border-slate-700">
+                        <span id="bkashNumDisplay" class="font-bold text-amber-400">01952804839</span>
+                        <button onclick="copyBkash()" class="bg-slate-800 hover:bg-slate-700 px-3 py-1 rounded-lg text-xs font-bold text-white">কপি</button>
+                    </div>
+                    <input type="text" id="trxIdInput" placeholder="ট্রানজেকশন আইডি (TrxID)" class="w-full bg-slate-900 border border-slate-700 p-2.5 rounded-xl text-xs text-white">
+                    <input type="number" id="addAmountInput" placeholder="টাকার পরিমাণ (৫ - ১৮০ টাকা)" class="w-full bg-slate-900 border border-slate-700 p-2.5 rounded-xl text-xs text-white">
+                    <button onclick="submitAddMoney()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-xs font-bold py-2.5 rounded-xl">অ্যাড মানি রিকোয়েস্ট পাঠান</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- ফ্লোটিং ওয়াটসঅ্যাপ ও নোটিফিকেশন -->
+        <div class="fixed bottom-20 right-6 z-40 flex flex-col items-end space-y-2">
+            <div id="notificationBadge" onclick="openNotifications()" class="bg-red-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shadow-lg cursor-pointer hidden animate-bounce">0</div>
+            <a id="whatsappBtn" href="https://wa.me/88017222946180" target="_blank" class="bg-emerald-500 hover:bg-emerald-600 text-white w-12 h-12 rounded-full flex items-center justify-center text-2xl shadow-xl transition transform hover:scale-110">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+        </div>
+
+        <!-- বটম নেভিগেশন -->
+        <nav class="absolute bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 py-3 px-6 flex justify-around items-center z-30">
+            <button onclick="switchTab('home')" class="nav-btn text-red-500 flex flex-col items-center text-xs font-bold"><i class="fa-solid fa-house text-lg mb-1"></i> হোম</button>
+            <button onclick="switchTab('history')" class="nav-btn text-gray-400 flex flex-col items-center text-xs font-bold"><i class="fa-solid fa-clock-rotate-left text-lg mb-1"></i> হিস্ট্রি</button>
+            <button onclick="switchTab('wallet')" class="nav-btn text-gray-400 flex flex-col items-center text-xs font-bold"><i class="fa-solid fa-wallet text-lg mb-1"></i> ওয়ালেট</button>
+        </nav>
+
+    </div>
+
+    <!-- ম্যাচ জয়েন মোডাল -->
+    <div id="joinModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-700 w-full max-w-sm p-5 rounded-2xl space-y-4">
+            <h3 class="text-lg font-bold text-white text-center">ম্যাচে জয়েন করুন</h3>
+            <input type="text" id="ingameName" placeholder="ইন-গেম নাম (যেমন: NSK Fighter)" class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-sm text-white">
+            <input type="text" id="ingameUid" placeholder="ফ্রি ফায়ার ইউআইডি (UID)" class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-sm text-white">
+            <div class="flex space-x-2">
+                <button onclick="closeJoinModal()" class="w-1/2 bg-slate-800 hover:bg-slate-700 py-2.5 rounded-xl text-sm font-bold text-gray-300">বাতিল</button>
+                <button onclick="confirmJoinMatch()" class="w-1/2 bg-red-600 hover:bg-red-700 py-2.5 rounded-xl text-sm font-bold text-white">কনফার্ম</button>
+            </div>
         </div>
     </div>
 
     <script>
-        async function loadTournaments() {
-            try {
-                const res = await fetch('/api/tournaments');
-                const tournaments = await res.json();
-                const list = document.getElementById('tournament-list');
-                
-                if (!tournaments || tournaments.length === 0) {
-                    list.innerHTML = '<p class="no-data">বর্তমানে কোনো টুর্নামেন্ট চালু নেই। অ্যাডমিন প্যানেল থেকে তৈরি করুন!</p>';
-                    return;
-                }
+        let currentUser = JSON.parse(localStorage.getItem('nhk_user')) || null;
+        let selectedTournamentId = null;
+        let allTournaments = [];
 
-                list.innerHTML = tournaments.map(t => `
-                    <div class="card">
-                        <h3>${t.title}</h3>
-                        <p>টাইপ: <span>${t.type}</span></p>
-                        <p>ম্যাপ: <span>${t.map}</span></p>
-                        <p>প্রাইজপুল: <span>৳${t.prizePool}</span></p>
-                        <p>পার কিল: <span>৳${t.perKill}</span></p>
-                        <p>এন্ট্রি ফি: <span>৳${t.entryFee}</span></p>
-                        <p>সময়: <span>${t.time}</span></p>
-                        <a href="#" class="join-btn">Join Match</a>
-                    </div>
-                `).join('');
-            } catch (err) {
-                document.getElementById('tournament-list').innerHTML = '<p class="no-data">টুর্নামেন্ট লোড করতে সমস্যা হচ্ছে!</p>';
+        function checkAuth() {
+            if (!currentUser) {
+                document.getElementById('authScreen').classList.remove('hidden');
+            } else {
+                updateUI();
+                fetchData();
             }
         }
 
-        loadTournaments();
-    </script>
-</body>
-</html>
+        function toggleAuth(type) {
+            if(type === 'register') {
+                document.getElementById('loginBox').classList.add('hidden');
+                document.getElementById('registerBox').classList.remove('hidden');
+            } else {
+                document.getElementById('registerBox').classList.add('hidden');
+                document.getElementById('loginBox').classList.remove('hidden');
+            }
+        }
+
+        async function handleRegister() {
+            let username = document.getElementById('regUser').value.trim();
+            let password = document.getElementById('regPass').value.trim();
+            if(!username || !password) return alert("সব তথ্য পূরণ করুন!");
+            
+            let res = await fetch('/api/register', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username, password})
+            });
+            let data = await res.json();
+            if(data.success) {
+                alert("রেজিস্ট্রেশন সফল হয়েছে!");
+                toggleAuth('login');
+            } else {
+                alert(data.message);
+            }
+        }
+
+        async function handleLogin() {
+            let username = document.getElementById('loginUser').value.trim();
+            let password = document.getElementById('loginPass').value.trim();
+            
+            let res = await fetch('/api/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username, password})
+            });
+            let data = await res.json();
+            if(data.success) {
+                currentUser = data.user;
+                localStorage.setItem('nhk_user', JSON.stringify(currentUser));
+                document.getElementById('authScreen').classList.add('hidden');
+                document.getElementById('successPopup').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('successPopup').classList.add('hidden');
+                    updateUI();
+                    fetchData();
+                }, 1200);
+            } else {
+                alert(data.message);
+            }
+        }
+
+        function updateUI() {
+            if(currentUser) {
+                document.getElementById('profileAvatar').innerText = currentUser.username.charAt(0).toUpperCase();
+                document.getElementById('headerBalance').innerText = `৳${currentUser.balance}`;
+                document.getElementById('walletBalance').innerText = `৳${currentUser.balance}`;
+                if(currentUser.notifications && currentUser.notifications.length > 0) {
+                    let badge = document.getElementById('notificationBadge');
+                    badge.innerText = currentUser.notifications.length;
+                    badge.classList.remove('hidden');
+                }
+            }
+        }
+
+        async function fetchData() {
+            let resSettings = await fetch('/api/settings');
+            let settings = await resSettings.json();
+            document.getElementById('topNoticeText').innerText = settings.topNotice;
+            document.getElementById('bkashNumDisplay').innerText = settings.bkashNumber;
