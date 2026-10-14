@@ -5,108 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NightHawks Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>body { background-color: #030712; color: #f3f4f6; font-family: sans-serif; }</style>
 </head>
-<body class="p-6">
-    <div class="max-w-6xl mx-auto space-y-6">
-        <header class="flex justify-between items-center bg-slate-900 border border-slate-800 p-4 rounded-2xl">
-            <h1 class="text-xl font-bold text-red-500">NIGHTHAWKS ADMIN CONTROL PANEL</h1>
-            <a href="/" target="_blank" class="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg text-gray-300">লাইভ অ্যাপ দেখুন</a>
-        </header>
+<body class="bg-gray-950 text-gray-100 font-sans min-h-screen p-6">
+    <div class="max-w-2xl mx-auto space-y-6">
+        <h1 class="text-2xl font-bold text-indigo-400 border-b border-gray-800 pb-3">⚙️ NightHawks Admin Control Panel</h1>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- নতুন ম্যাচ অ্যাড -->
-            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-4">
-                <h2 class="font-bold text-white text-base">১. নতুন টুর্নামেন্ট ম্যাচ অ্যাড করুন</h2>
-                <input type="text" id="matchTitle" placeholder="ম্যাচের নাম (যেমন: Grand Clash #2)" class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                <div class="grid grid-cols-2 gap-2">
-                    <select id="matchCategory" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                        <option value="Clash Squad">Clash Squad</option>
-                        <option value="Bermuda">Bermuda</option>
-                        <option value="Lone Wolf">Lone Wolf</option>
-                    </select>
-                    <input type="text" id="subCategory" placeholder="ট্যাগ (যেমন: 4v4 / SOLO)" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                </div>
-                <div class="grid grid-cols-3 gap-2">
-                    <input type="text" id="prizePool" placeholder="প্রাইজপুল (৳)" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                    <input type="text" id="perKill" placeholder="পার কিল (৳)" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                    <input type="text" id="entryFee" placeholder="এন্ট্রি ফি (৳)" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                </div>
-                <input type="text" id="matchTime" placeholder="সময় (যেমন: Tonight 09:00 PM)" class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                <button onclick="publishMatch()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl text-xs">ম্যাচ পাবলিশ করুন</button>
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-lg space-y-4">
+            <h2 class="text-lg font-bold text-gray-200">App Settings & Notice</h2>
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 mb-1">bKash Number</label>
+                <input type="text" id="setBkash" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-sm text-white">
             </div>
-
-            <!-- রিফান্ড ও ওয়ালেট কন্ট্রোল -->
-            <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-4">
-                <h2 class="font-bold text-white text-base">২. প্লেয়ার রিফান্ড ও ওয়ালেট অ্যাডJustment</h2>
-                <input type="text" id="refundUser" placeholder="ইউজারনেম লিখুন" class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                <input type="number" id="refundAmount" placeholder="টাকার পরিমাণ (৳)" class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                <input type="text" id="refundMsg" placeholder="বার্তা (যেমন: ম্যাচ ক্যানসেলের রিফান্ড টাকা)" class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                <button onclick="sendRefund()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-xs">রিফান্ড ও নোটিফিকেশন পাঠান</button>
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 mb-1">WhatsApp Number</label>
+                <input type="text" id="setWhatsapp" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-sm text-white">
             </div>
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 mb-1">Top Notice Text</label>
+                <input type="text" id="setNotice" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-sm text-white">
+            </div>
+            <button onclick="updateSettings()" class="w-full bg-indigo-600 hover:bg-indigo-500 font-bold py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/30">Save Settings</button>
         </div>
 
-        <!-- রুম আইডি ও সেটিংস চেঞ্জার -->
-        <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl space-y-4">
-            <h2 class="font-bold text-white text-base">৩. অ্যাপের বিকাশ ও ওয়াটসঅ্যাপ নাম্বার আপডেট</h2>
-            <div class="grid grid-cols-2 gap-3">
-                <input type="text" id="setBkash" placeholder="নতুন বিকাশ নাম্বার" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
-                <input type="text" id="setWhatsapp" placeholder="নতুন ওয়াটসঅ্যাপ নাম্বার" class="bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white">
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-lg space-y-4">
+            <h2 class="text-lg font-bold text-gray-200">Publish Room ID & Password</h2>
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 mb-1">Tournament ID</label>
+                <input type="number" id="tId" value="1" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-sm text-white">
             </div>
-            <textarea id="setNotice" placeholder="টপ নোটিশ বার্তা লিখুন..." class="w-full bg-slate-800 border border-slate-700 p-3 rounded-xl text-xs text-white h-20"></textarea>
-            <button onclick="updateSettings()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs">সেটিংস সেভ করুন</button>
+            <div>
+                <label class="block text-xs font-semibold text-gray-400 mb-1">Room Pass (e.g., ID: 12345, Pass: nhk123)</label>
+                <input type="text" id="roomPassInput" placeholder="Enter Room ID & Pass" class="w-full bg-gray-800 border border-gray-700 rounded-lg p-2.5 text-sm text-white">
+            </div>
+            <button onclick="updateRoomPass()" class="w-full bg-emerald-600 hover:bg-emerald-500 font-bold py-2.5 rounded-xl transition shadow-lg shadow-emerald-600/30">Publish Room Pass</button>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-2xl p-5 shadow-lg space-y-4">
+            <h2 class="text-lg font-bold text-gray-200">Cancel & Refund Match</h2>
+            <button onclick="refundMatch()" class="w-full bg-rose-600 hover:bg-rose-500 font-bold py-2.5 rounded-xl transition shadow-lg shadow-rose-600/30">Refund Entry Fees (Tournament ID: 1)</button>
         </div>
     </div>
 
     <script>
-        async function publishMatch() {
-            let data = {
-                title: document.getElementById('matchTitle').value,
-                category: document.getElementById('matchCategory').value,
-                subCategory: document.getElementById('subCategory').value,
-                prizePool: document.getElementById('prizePool').value,
-                perKill: document.getElementById('perKill').value,
-                entryFee: document.getElementById('entryFee').value,
-                time: document.getElementById('matchTime').value,
-                totalSlots: 8
-            };
-            let res = await fetch('/api/tournaments/add', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            });
-            let result = await res.json();
-            alert(result.message);
-        }
-
-        async function sendRefund() {
-            let data = {
-                username: document.getElementById('refundUser').value.trim(),
-                amount: document.getElementById('refundAmount').value,
-                message: document.getElementById('refundMsg').value
-            };
-            let res = await fetch('/api/admin/refund', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            });
-            let result = await res.json();
-            alert(result.message);
-        }
-
         async function updateSettings() {
-            let data = {
+            const data = {
                 bkashNumber: document.getElementById('setBkash').value,
                 whatsappNumber: document.getElementById('setWhatsapp').value,
                 topNotice: document.getElementById('setNotice').value
             };
-            let res = await fetch('/api/settings/update', {
+            const res = await fetch('/api/settings/update', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
-            let result = await res.json();
+            const result = await res.json();
+            alert(result.message);
+        }
+
+        async function updateRoomPass() {
+            const data = {
+                tournamentId: document.getElementById('tId').value,
+                roomPass: document.getElementById('roomPassInput').value
+            };
+            const res = await fetch('/api/admin/roompass', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
+            alert(result.message);
+        }
+
+        async function refundMatch() {
+            if(!confirm("Are you sure you want to refund all players?")) return;
+            const res = await fetch('/api/admin/refund', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tournamentId: 1 })
+            });
+            const result = await res.json();
             alert(result.message);
         }
     </script>
